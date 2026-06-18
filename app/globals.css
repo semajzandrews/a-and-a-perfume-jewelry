@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+/* A and A Perfume and Jewelry · Tokens
+   Lineage: apothecary cabinet + niche-fragrance label editorial + warm
+   parchment gifting. Artisanal, hand-composed, museum-warm light.
+   Lane: accent cacao #6F4E37 · Boska display · alternating bands · artisanal. */
+@theme {
+  --color-parchment:  #F2EBDD;   /* primary warm parchment ground */
+  --color-parchment-2:#EAE0CC;   /* deeper parchment (alternating band) */
+  --color-parchment-3:#E2D4BC;
+  --color-cacao:      #3A2A1E;   /* deep cacao ink */
+  --color-cacao-2:    #2A1D14;
+  --color-coffee:     #6F4E37;   /* LANE accent — coffee/cacao brown */
+  --color-coffee-2:   #5A3E2B;
+  --color-brass:      #B08A52;   /* brass hairline + small accents */
+  --color-brass-2:    #997440;
+  --color-rose:       #C9A6A0;   /* rose-quartz whisper, sparing */
+  --color-amber:      #C98A3C;   /* perfume amber, sparing */
+  --color-rule:       rgba(58,42,30,0.16);
+  --color-rule-2:     rgba(58,42,30,0.34);
+
+  --font-display: "Boska", "Didot", Georgia, ui-serif, serif;
+  --font-body:    "Satoshi", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    var(--font-mono), "JetBrains Mono", ui-monospace, monospace;
+}
+
+@layer base {
+  :root {
+    --parchment:#F2EBDD; --parchment-2:#EAE0CC; --parchment-3:#E2D4BC;
+    --cacao:#3A2A1E; --cacao-2:#2A1D14;
+    --coffee:#6F4E37; --coffee-2:#5A3E2B;
+    --brass:#B08A52; --brass-2:#997440;
+    --rose:#C9A6A0; --amber:#C98A3C;
+    --rule:rgba(58,42,30,0.16); --rule-2:rgba(58,42,30,0.34);
+  }
+  html, body {
+    background: var(--parchment);
+    color: var(--cacao);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+  ::selection { background: var(--coffee); color: var(--parchment); }
+  h1, h2, h3, .font-display { font-family: var(--font-display); }
+}
+
+/* Warm paper grain */
+.paper-grain {
+  position: relative;
+}
+.paper-grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image:
+    radial-gradient(rgba(58,42,30,0.020) 1px, transparent 1px),
+    radial-gradient(rgba(176,138,82,0.016) 1px, transparent 1.6px);
+  background-size: 3px 3px, 7px 7px;
+  mix-blend-mode: multiply;
+  opacity: 0.9;
+}
+
+/* Brass hairline divider */
+.brass-rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--brass) 18%, var(--brass) 82%, transparent);
+  opacity: 0.7;
+}
+.brass-rule-l {
+  height: 1px;
+  background: linear-gradient(90deg, var(--brass), transparent);
+  opacity: 0.6;
+}
+
+/* Kicker / eyebrow */
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--coffee);
+}
+
+/* Boska italic display helper */
+.disp-italic { font-family: var(--font-display); font-style: italic; }
+
+/* Band base — alternating grounds applied per-section in markup */
+.band { position: relative; z-index: 2; }
+
+/* Reveal-on-scroll */
+.reveal { opacity: 0; transform: translateY(22px); }
+.reveal.in { opacity: 1; transform: none; transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.22,1,0.36,1); }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1 !important; transform: none !important; }
+}
+
+/* ---- Signature: Olfactory Layer Pyramid ---- */
+.pyramid-strata { transition: transform 0.5s cubic-bezier(0.22,1,0.36,1), filter 0.5s ease; }
+.pyramid-strata.lifted { transform: translateX(14px); }
+@media (max-width: 640px) {
+  .pyramid-strata.lifted { transform: translateX(6px); }
+}
+
+/* clipped trapezoid strata */
+.strat-top  { clip-path: polygon(34% 0, 66% 0, 72% 100%, 28% 100%); }
+.strat-heart{ clip-path: polygon(28% 0, 72% 0, 80% 100%, 20% 100%); }
+.strat-base { clip-path: polygon(20% 0, 80% 0, 90% 100%, 10% 100%); }
+
+/* fill draw for strata */
+.strat-fill { transform: scaleX(0); transform-origin: center; transition: transform 1s cubic-bezier(0.22,1,0.36,1); }
+.strat-fill.drawn { transform: scaleX(1); }
+
+/* call pill */
+.call-pill { backdrop-filter: blur(6px); }
+
+/* nav blur */
+.nav-blur { backdrop-filter: blur(10px) saturate(1.1); }
+
+/* subtle link underline */
+.ulink { position: relative; }
+.ulink::after {
+  content: ""; position: absolute; left: 0; bottom: -2px; height: 1px; width: 100%;
+  background: currentColor; transform: scaleX(0); transform-origin: right;
+  transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+.ulink:hover::after { transform: scaleX(1); transform-origin: left; }
+
+/* image vignette warm */
+.warm-vignette { position: relative; }
+.warm-vignette::after {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(120% 90% at 50% 30%, transparent 40%, rgba(58,42,30,0.28) 100%);
+  pointer-events: none;
+}
+
+/* slow drift for hero bottle */
+@keyframes drift { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.drift { animation: drift 7s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .drift { animation: none; } }
